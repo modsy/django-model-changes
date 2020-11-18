@@ -102,7 +102,7 @@ class ChangesMixin(object):
         field_names = set()
         [field_names.add(f.name) for f in self._meta.local_fields]
         [field_names.add(f.attname) for f in self._meta.local_fields]
-        return dict([(field_name, getattr(self, field_name)) for field_name in field_names])
+        return dict([(field_name, getattr(self, field_name, None)) for field_name in field_names])
 
     def previous_state(self):
         """
@@ -123,7 +123,7 @@ class ChangesMixin(object):
         return self._states[0]
 
     def _changes(self, other, current):
-        return dict([(key, (was, current[key])) for key, was in other.iteritems() if was != current[key]])
+        return dict([(key, (was, current[key])) for key, was in other.items() if was != current[key]])
 
     def changes(self):
         """
