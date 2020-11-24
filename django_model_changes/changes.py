@@ -76,6 +76,9 @@ class ChangesMixin(object):
             dispatch_uid='django-changes-%s' % self.__class__.__name__
         )
 
+    def _state_fields(self):
+        return [f for f in self._meta.get_fields() if f.concrete and not f.many_to_many]
+
     def _save_state(self, new_instance=False, event_type='save'):
         # Pipe the pk on deletes so that a correct snapshot of the current
         # state can be taken.
@@ -100,8 +103,8 @@ class ChangesMixin(object):
         Returns a ``field -> value`` dict of the current state of the instance.
         """
         field_names = set()
-        [field_names.add(f.name) for f in self._meta.local_fields]
-        [field_names.add(f.attname) for f in self._meta.local_fields]
+        [field_names.add(f.name) for f in self._state_fields()]
+        [field_names.add(f.attname) for f in self._state_fields()]
         return dict([(field_name, getattr(self, field_name, None)) for field_name in field_names])
 
     def previous_state(self):
