@@ -8,14 +8,14 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-model-changes',
-    version='0.14',
+    version='0.15',
     packages=find_packages(exclude=['tests']),
     license='MIT License',
     description='django-model-changes allows you to track model instance changes.',
     long_description=README,
-    url='http://github.com/kajic/django-model-changes',
-    author='Robert Kajic',
-    author_email='robert@kajic.com',
+    url='http://github.com/modsy/django-model-changes',
+    author='Modsy',
+    author_email='engineering@modsy.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -25,6 +25,7 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
