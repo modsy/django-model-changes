@@ -79,7 +79,7 @@ class ChangesMixin(object):
     def _state_fields(self):
         return [f for f in self._meta.get_fields() if f.concrete and not f.many_to_many]
 
-    def _save_state(self, new_instance=False, event_type='save'):
+    def _save_state(self, new_instance=False, event_type=None, created=False):
         # Pipe the pk on deletes so that a correct snapshot of the current
         # state can be taken.
         if event_type == DELETE:
@@ -96,7 +96,8 @@ class ChangesMixin(object):
 
         # Send post_change signal unless this is a new instance
         if not new_instance:
-            post_change.send(sender=self.__class__, instance=self)
+            post_change.send(sender=self.__class__, instance=self, 
+                             event_type=event_type, created=created)
 
     def current_state(self):
         """
@@ -201,8 +202,8 @@ class ChangesMixin(object):
         return self.__class__(**self.previous_state())
 
 
-def _post_save(sender, instance, **kwargs):
-    instance._save_state(new_instance=False, event_type=SAVE)
+def _post_save(sender, instance, created, **kwargs):
+    instance._save_state(new_instance=False, event_type=SAVE, created=created)
 
 
 def _post_delete(sender, instance, **kwargs):
