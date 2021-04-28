@@ -77,7 +77,7 @@ class ChangesMixin(object):
         )
 
     def _state_fields(self):
-        return [f for f in self._meta.get_fields() if f.concrete and not f.is_relation]
+        return [f for f in self._meta.get_fields() if f.concrete and not f.many_to_many]
 
     def _save_state(self, new_instance=False, event_type=None, created=False):
         # Pipe the pk on deletes so that a correct snapshot of the current
